@@ -6,7 +6,7 @@ from lxml import etree
 import xlwt
 import datetime
 
-def get_data(list, head):
+def shoot(list, head):
     """拿到数据"""
     for url in list:
         response = requests.get(url, head)
@@ -15,7 +15,24 @@ def get_data(list, head):
         print(name)
         part = tree.xpath('/html/body/div[3]/div[4]/div[1]/div[2]/table/tbody/tr/td[2]/text()')[:5]
         print(part)
-        # TODO 继续获取球员信息
+        time = tree.xpath('/html/body/div[3]/div[4]/div[1]/div[2]/table/tbody/tr/td[3]/text()')[1:6]
+        print(time)
+        shoot = tree.xpath('/html/body/div[3]/div[4]/div[1]/div[2]/table/tbody/tr/td[4]/text()')[1:6]
+        print(shoot)
+        three_point = tree.xpath('/html/body/div[3]/div[4]/div[1]/div[2]/table/tbody/tr/td[5]/text()')[1:6]
+        print(three_point)
+        fa_qiu = tree.xpath('/html/body/div[3]/div[4]/div[1]/div[2]/table/tbody/tr/td[6]/text()')[1:6]
+        print(fa_qiu)
+        fangui = tree.xpath('/html/body/div[3]/div[4]/div[1]/div[2]/table/tbody/tr/td[11]/text()')[1:6]
+        print(fangui)
+        qiangduan = tree.xpath('/html/body/div[3]/div[4]/div[1]/div[2]/table/tbody/tr/td[12]/text()')[1:6]
+        print(qiangduan)
+        shiwu = tree.xpath('/html/body/div[3]/div[4]/div[1]/div[2]/table/tbody/tr/td[13]/text()')[1:6]
+        print(shiwu)
+        fenggai = tree.xpath('/html/body/div[3]/div[4]/div[1]/div[2]/table/tbody/tr/td[14]/text()')[1:6]
+        print(fenggai)
+        break
+
 
 
 
@@ -25,7 +42,7 @@ def get_into_url(url, headers):
     # print(response.text)
     tree = etree.HTML(response.text)
     into_url_list = tree.xpath('/html/body/div[3]/div[4]/div[1]/div/div/div[2]/a[1]/@href')
-    get_data(into_url_list, headers)
+    shoot(into_url_list, headers)
 
 
 
