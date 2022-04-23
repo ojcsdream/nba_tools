@@ -31,7 +31,7 @@ def shoot(list, head):
         print(shiwu)
         fenggai = tree.xpath('/html/body/div[3]/div[4]/div[1]/div[2]/table/tbody/tr/td[14]/text()')[1:6]
         print(fenggai)
-        break
+
 
 
 
