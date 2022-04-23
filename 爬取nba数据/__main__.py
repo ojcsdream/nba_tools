@@ -1,4 +1,4 @@
-import nba_01
+import collect_group_list
 import collect_nba_player_goals
 
 
@@ -8,7 +8,7 @@ while True:
     choice = input("输入1：爬取nba排名数据\n输入2：爬取nba球员得分排名")
     if choice in ["1", "2"]:
         if choice == "1":
-            nba_01.main()
+            collect_group_list.main()
             break
         else:
             collect_nba_player_goals.main()
