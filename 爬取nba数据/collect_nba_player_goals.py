@@ -3,6 +3,7 @@ import requests
 from lxml import etree
 import datetime
 
+
 def get_data(url, head):
     """获取数据"""
     response = requests.get(url, head)
@@ -29,17 +30,15 @@ def save(data_list, time):
     """保存xls文件"""
     workbook = xlwt.Workbook()
     sheet = workbook.add_sheet("NBA", cell_overwrite_ok=True)
-    col = ["排名",	"球员",	"球队", "得分",	"命中-出手", "命中率", "命中-三分",	"三分命中率", "命中-罚球"]
+    col = ["排名", "球员", "球队", "得分", "命中-出手", "命中率", "命中-三分", "三分命中率", "命中-罚球"]
     for a in range(9):
         sheet.write(0, a, col[a])
     for j in range(9):
         list = data_list[j]
         for i in range(50):
-            sheet.write(i+1, j, list[i])
-
+            sheet.write(i + 1, j, list[i])
 
     workbook.save(f"{time}NBA球员得分榜.xls")
-
 
 
 def main():
