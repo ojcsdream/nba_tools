@@ -37,7 +37,7 @@ def get_first_group(url, headers):
     for i in point:
         i = i.strip("\n")
         if len(i) == 0:
-            i = "/"
+            i = "未知"
         a.append(i)
     point = a
     # 去空白
@@ -48,7 +48,7 @@ def get_first_group(url, headers):
     for i in zheng_fu:
         i = i.strip("\n")
         if len(i) == 0:
-            i = "/"
+            i = "未知"
         b.append(i)
     zheng_fu = b
     # 去空白
@@ -88,7 +88,7 @@ def get_second_group(url, headers):
     for i in point:
         i = i.strip("\n")
         if len(i) == 0:
-            i = "/"
+            i = "未知"
         a.append(i)
     point = a
     # 去空白
@@ -99,7 +99,7 @@ def get_second_group(url, headers):
     for i in zheng_fu:
         i = i.strip("\n")
         if len(i) == 0:
-            i = "/"
+            i = "未知"
         b.append(i)
     zheng_fu = b
     # 去空白
@@ -109,13 +109,30 @@ def get_second_group(url, headers):
             fangui, qiangduan, shiwu, fenggai, point, zheng_fu]
 
 
-def save(file_name, fist, second):
-    col = ["首发	", "位置", "时间", "投篮", "3分", "罚球", "犯规", "抢断", "失误",	"封盖",	"得分",	"+/-"]
+def get_group_name(url, headers):
+    response = requests.get(url, headers)
+    tree = etree.HTML(response.text)
+    group_name_list = tree.xpath('/html/body/div[3]/div[4]/div[1]/div/div/h2/text()')
+    return group_name_list
+
+
+def save(file_name, first, second, group_name_list):
+    col = ["首发	", "位置", "时间", "投篮", "3分", "罚球", "犯规", "抢断", "失误", "封盖", "得分", "+/-"]
     workbook = xlwt.Workbook()
-    sheet = workbook.add_sheet("NBA",cell_overwrite_ok=True)
+    sheet = workbook.add_sheet("NBA", cell_overwrite_ok=True)
 
     for i in range(12):
         sheet.write(0, i, col[i])
+    sheet.write(1, 5, group_name_list[0])
+    # 写入第一个队伍的数据
+
+    for i in range(12):
+        kid_list = first[i]
+        a = 2
+        for j in range(5):
+            sheet.write(a, i, kid_list[j])
+            a += 1
+    # TODO 保存第二个队伍的数据
 
     workbook.save(file_name)
 
@@ -125,8 +142,10 @@ def shoot(list, head, time):
     for url in list:
         first = get_first_group(url, head)
         second = get_second_group(url, head)
-        save(f"{time}比赛数据.xls", first, second)
-
+        group_name = get_group_name(url, head)
+        # print(first)
+        file = f'{time} {group_name[0]} VS {group_name[1]}比赛数据.xls'
+        save(file, first, second, group_name)
 
 
 def get_into_url(url, headers, time):
@@ -146,7 +165,6 @@ def main():
 
     time = datetime.date.today()
     get_into_url(url, head, time)
-
 
 
 if __name__ == '__main__':
