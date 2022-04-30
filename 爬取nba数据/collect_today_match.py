@@ -133,7 +133,14 @@ def save(file_name, first, second, group_name_list):
             sheet.write(a, i, kid_list[j])
             a += 1
     # TODO 保存第二个队伍的数据
+    sheet.write(7, 5, group_name_list[1])
 
+    for i in range(12):
+        kid_2_list = second[i]
+        b = 8
+        for a in range(5):
+            sheet.write(b, i, kid_2_list[a])
+            b += 1
     workbook.save(file_name)
 
 
